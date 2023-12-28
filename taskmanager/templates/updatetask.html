@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Update Book</title>
+</head>
+<style>
+body{
+    background-color: #7d2ae8;
+    color: white;
+}
+form{
+    margin-left:30%;
+    margin-top: 10%;
+}
+.input{
+    color: white;
+    background-color: #7018e4;
+}
+.submit{
+    color: white;
+    background-color: #2f0a5f;
+    margin-left: 5%;
+}
+.cancel{
+    margin-left: 35%;
+    color: white;
+    background-color: #2f0a5f;
+}
+h1{
+    position: absolute;
+    text-align: center;
+    margin-top: 5%;
+}
+</style>
+<body>
+<h1>Update Task</h1     >
+{% for task in tasks %}
+<form method="POST" >
+    {% csrf_token %}
+    <label for="title">Title:</label>
+    <input class="input" style="margin-left: 8%; color: white; background-color: #7018e4;" type="text" name="title" disabled value="{{ task.title }}" ><br><br>
+    <label for="description">Description:</label>
+    <textarea class="input" style="margin-left: 2.5%;" name="description" rows="2" cols="50" >{{ task.descr }}</textarea><br><br>
+    <label for="duedate">Due Date:</label>
+    <input class="input" style="margin-left: 4.5%;" type="datetime-local" name="duedate" disabled value="{{task.duedate|date:'Y-m-d\TH:i'}}" ><br><br>
+    <label for="prior"> Priority</label>
+    <select class="input" style="margin-left: 6.5%;" name="prior" disabled value="{{ task.prior }}" >
+        <option value="low" {% if task.prior == 'low' %} selected {% endif %}>Low</option>
+        <option value="medium" {% if task.prior == 'medium' %} selected {% endif %}>Medium</option>
+        <option value="high" {% if task.prior == 'high' %} selected {% endif %}>High</option>
+    </select><br><br>
+    <label for="status">Status</label>
+    <select style="margin-left: 7.5%; background-color: #410e84; color: white;" name="status" >
+        <option value="not completed"  >Not completed</option>
+        <option value="completed">Completed</option>
+    </select><br><br><br>
+    <input class="submit" type="submit" value="Update Task"><br><br>
+</form>
+{% endfor %}
+<button class="cancel"onclick="location.href='{% url "taskmanager" %}'">Cancel</button>
+</body>
+</html>

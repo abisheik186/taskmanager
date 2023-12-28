@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>     <!-- #task title, description, due date, and priority level-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table, th, td {
+        
+        border-bottom: 1px solid #ddd;
+        padding: 5px;
+}
+tr:nth-child(even) {background-color: #9d60ed;}
+body{
+    background-color: #9d60ed;
+    color: white;
+}
+table{
+    background-color: white;;
+}
+#du{
+    position: absolute;
+    top:15%;
+    left: 50%;
+    color: white;
+    background-color:#2f0a5f ;
+
+}
+#pr{
+    position: absolute;
+    top:5%;
+    left: 50%;
+    color: white;
+    background-color:#2f0a5f ;
+
+}
+.form{
+    margin-left: 20%;
+    margin-top: 3%;
+}
+table{
+    text-align: center;
+    background-color: #7018e4;
+    margin: auto;
+    width: 60%;
+    border: 3px solid #ab76f0;
+    padding: 10px;
+}
+.search{
+    position: absolute;
+    left: 70%;
+}
+.btn{
+    color: white;
+    background-color:#2f0a5f ;
+    text-decoration: none;
+    border: 2px solid #190533;
+}
+h1{
+    position: absolute;
+    text-align: center;
+    margin-top: 5%;
+}
+</style>
+<body>
+    <h1>Task</h1><br>
+    <h1>manager</h1>
+    <form method="get" class="search">{% csrf_token %}
+        <input type="search" style="background-color: #7018e4; color: white;" placeholder="Search for Tasks" aria-label="Search" name="searchvalue">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+    <div>
+        <a class="me-2 link-underline-light" href="{% url 'taskmanager' %}"?letter=letter>{{letter}} &nbsp| </a>
+        <button id="pr" onclick="location.href='{% url "taskmanager" %}?sort=prior'">sort by priority</button>
+        <button id="du" onclick="location.href='{% url "taskmanager" %}?sort=duedate'">sort by Duedate</button>
+    </div>
+
+    <form method="post">
+        {% csrf_token%}
+        <div class="form">
+            <label for="title">Title</label>
+            <input style="margin-left: 8%; color: white; background-color: #7018e4;" type="text" name="title" ><br><br>
+            <label for="description">Description</label>
+            <textarea style="margin-left: 3.5%; color: white; background-color: #7018e4;" name="description"></textarea><br><br>
+            <!--<input type="text" name="Description" required><br>-->
+            <label for="duedate">Due Date</label>
+            <input style="margin-left: 5%; color: white; background-color: #7018e4;" type="datetime-local" name="duedate" ><br><br>
+            <label for="prior"> Priority</label>
+            <select style="margin-left: 6.3%; color: white; background-color: #7018e4;" name="prior" required>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select><br><br>
+            <label for="status">Status</label>
+            <select style="margin-left: 7.5%; color: white; background-color: #7018e4;" name="status">
+                <option value="not completed">Not completed</option>
+                <option value="completed">Completed</option>
+            </select><br><br>
+            <input style="margin-left: 5%; background-color: #2f0a5f; color: white;" type="submit" value="submit"/><br><br>
+        </div>
+        </form>
+    {% if alltasks %}
+        <table style="width: 80%">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>actions</th>
+                <th>delete</th>
+            </tr>
+            {% for task in alltasks %}
+            <tr>
+            <td>{{task.title}}</td>
+            <td>{{task.descr}}</td>
+            <td>{{task.duedate}}</td>
+            <td>{{task.prior}}</td>
+            <td>{{task.status}}</td>
+            <td><a class="btn" href="{% url 'update' task.id %}"">Update</a></td>
+            <td><a class="btn" href="{% url 'delete' task.id %}">Delete</a></td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Delete Task</title>
+</head>
+<style>
+body{
+    background-color: #7d2ae8;
+    text-align: center;
+    margin-top: 15%;
+    color: white;
+}
+.btn{
+    color: white;
+    background-color:#2f0a5f ;
+    text-decoration: none;
+    border: 2px solid #190533;
+}
+</style>
+<body>
+<h2>Delete Task</h2>
+
+<p>Are you sure you want to delete?</p>
+<form method="post">
+{% csrf_token %}
+<button class="btn" type="submit">Delete</button><br><br>
+</form>
+<button class="btn" onclick="location.href='{% url "taskmanager" %}'">Cancel</button>
+</body>
+</html>
